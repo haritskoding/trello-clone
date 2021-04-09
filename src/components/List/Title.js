@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Typography } from '@material-ui/core'
 import InputBase from '@material-ui/core/InputBase'
 import { makeStyles } from "@material-ui/core/styles";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import storeApi from "../../utils/storeApi";
 
 const useStyle = makeStyles((theme) => ({
     editableTitleContainer: {
@@ -11,9 +12,14 @@ const useStyle = makeStyles((theme) => ({
     },
 
     editableTitle: {
-        flexGrow: 1
+        flexGrow: 1,
+        fontSize: "1.2rem",
+        fontWeight: 'bold',
+
     },
     input: {
+        fontSize: "1.2rem",
+        fontWeight: 'bold',
         margin: theme.spacing(1),
         "&:focus": {
 
@@ -21,20 +27,35 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-function Title() {
+function Title({ title, listId }) {
     const [open, setOpen] = useState(false);
+    const [newTitle, setNewTitle] = useState(title);
+    const { updateListTitle } = useContext(storeApi);
     const classes = useStyle();
+
+
+    const handleOnChange = (e) => {
+        setNewTitle(e.target.value)
+    }
+
+    const handleOnBlur = () => {
+        updateListTitle(newTitle, listId)
+        setOpen(false);
+    }
 
     return (
         <div>
             {open ? (
                 <div>
-                    <InputBase value="todo"
+                    <InputBase
+                        onChange={handleOnChange}
+                        autoFocus
+                        value={newTitle}
                         inputProps={{
                             className: classes.input,
                         }}
                         fullWidth
-                        onBlur={() => setOpen(!open)}
+                        onBlur={handleOnBlur}
                     />
                 </div>
             ) : (
@@ -43,7 +64,7 @@ function Title() {
                         onClick={() => setOpen(!open)}
                         className={classes.editableTitle}
                     >
-                        Todo
+                        {title}
                     </Typography>
                     <MoreHorizIcon />
                 </div>

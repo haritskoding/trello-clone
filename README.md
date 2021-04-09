@@ -18,4 +18,12 @@ Part 3:
 
 - [ ] drag and drop card in the same list
 - [ ] drag and drop card in the different list
-- [ ] drag and drop  list
+- [ ] drag and drop list
+
+part 4:
+
+- [ ] navigation bar
+- [ ] sidemenu
+- [ ] BoxMenu
+- [ ] BoxOptionsImages
+- [ ] BoxOptionsColors
